@@ -38,8 +38,9 @@ arkweid@ubuntu:~/RailsProjects/HackRails/pdf_renderer$ rake test
 Теперь о рендерере. Он позволяет специфицировать свое поведение с помощью метода
 render()
 
-rails/actionpack/lib/action_controller/metal/renderers.rb
 ```ruby
+# rails/actionpack/lib/action_controller/metal/renderers.rb
+
 add :json do |json, options|
   json = json.to_json(options) unless json.kind_of?(String)
   if options[:callback].present?
@@ -65,8 +66,10 @@ render json: @post
  render pdf: 'contents', template: 'path/to/template'
  ```
 Поехали!
-../pdf_renderer.gemspec
+
 ```ruby
+# ../pdf_renderer.gemspec
+
 s.add_dependency "prawn", "2.2.2"
 ```
 
@@ -82,8 +85,9 @@ pdf.render_file("sample.pdf")
 Выходим и видим что в корневой папке появился файл
 
 Добавим контроллер:
-/test/dummy/app/controllers/home_controller.rb
 ```ruby
+# /test/dummy/app/controllers/home_controller.rb
+
 class HomeController < ApplicationController
   def index
     respond_to do |format|
@@ -95,8 +99,10 @@ end
 ```
 Забацаем тесты:
 Проверим заголовок и имя файла как аттачмент
-/test/integration/pdf_delivery_test.rb
+
 ```ruby
+# /test/integration/pdf_delivery_test.rb
+
 require "test_helper"
 
 class PdfDeliveryTest < ActionDispatch::IntegrationTest
@@ -118,8 +124,8 @@ PdfDeliveryTest#test_pdf_request_sends_a_pdf_as_file [/home/arkweid/RailsProject
 Expected /PDF/ to match "This template is rendered with Prawn.\n".
 
 Теперь сделаем, чтобы оно работало:
-/lib/pdf_renderer.rb
 ```ruby
+# /lib/pdf_renderer.rb
 require "prawn"
 
 ActionController::Renderers.add :pdf do |filename, options|
@@ -133,9 +139,11 @@ end
 Тесты проходят, пдфка отправляется. Однако один момент который требует пояснения.
 Мы не манипулировали заголовком, однако Content-Type у нас application/pdf.
 И вот почему. Заглянем сюда:
-/actionpack/lib/action_dispatch/http/mime_types.rb
+
 И видим там строчку:
 ```ruby
+# /actionpack/lib/action_dispatch/http/mime_types.rb
+
 Mime::Type.register "application/pdf", :pdf, [], %w(pdf)
 ```
 Когда рельса получает запрос `/home.pdf` она извлекает формат(pdf) из URL,
