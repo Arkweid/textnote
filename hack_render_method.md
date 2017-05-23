@@ -14,7 +14,7 @@ Rakefile создает базовые задачи по запуску тест
 публикации гема. Список команд:
 ```bash
 arkweid@ubuntu:~/RailsProjects/HackRails/pdf_renderer$ rake -T
-```
+
 rake build            # Build pdf_renderer-0.0.1.gem into the pkg directory
 rake clobber_rdoc     # Remove RDoc HTML files
 rake install          # Build and install pdf_renderer-0.0.1.gem into system gems
@@ -23,8 +23,7 @@ rake rdoc             # Build RDoc HTML files
 rake release[remote]  # Create tag v0.0.1 and build and push pdf_renderer-0.0.1.gem to Rubygems
 rake rerdoc           # Rebuild RDoc HTML files
 rake test             # Run tests
-
-
+```
 Посмотрим, чем boor.rb отличается от обычного:
 ```ruby
 $LOAD_PATH.unshift File.expand_path('../../../../lib', __FILE__)
